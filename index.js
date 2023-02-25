@@ -8,16 +8,6 @@ import prompt from "prompt";
 // else show Draw if all squares are filled and no winner
 
 const gameBoard = new Array(9).fill("").map((_, i) => (i + 1).toString());
-const winPatterns = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
-  [1, 4, 7],
-  [2, 5, 8],
-  [3, 6, 9],
-  [1, 5, 9],
-  [3, 5, 7],
-];
 
 const checkInput = (input) => {
   if (
@@ -33,17 +23,33 @@ const checkInput = (input) => {
 };
 
 const checkWin = (player) => {
-  for (let i = 0; i < winPatterns.length; i++) {
-    let playCount = 0;
-    for (let j = 0; j < 3; j++) {
-      if (gameBoard[winPatterns[i][j] - 1] == player) {
-        playCount++;
-      }
+  for (let i = 0; i < 3; i++) {
+    // check along horizontal and vertical lines
+    let horizontalCount = 0;
+    let verticalCount = 0;
+    let l2rCount = 0;
+    let r2lCount = 0;
+    for (let j = i * 3; j < 3 * (i + 1); j++) {
+      if (gameBoard[j] == player) horizontalCount++;
     }
-    if (playCount == 3) {
+    for (let k = i; k < 9; k = k + 3) {
+      if (gameBoard[k] == player) verticalCount++;
+    }
+    if (horizontalCount == 3 || verticalCount == 3) {
       return true;
     }
+    // check along diagonals
+    for (let l = 0; l < 3; l++) {
+      let l2rIndex = 4 * l;
+      let r2lIndex = 2 * (l + 1);
+      if (gameBoard[l2rIndex] == player) l2rCount++;
+      if (gameBoard[r2lIndex] == player) r2lCount++;
+      if (l2rCount == 3 || r2lCount == 3) {
+        return true;
+      }
+    }
   }
+
   return false;
 };
 
