@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Play tictactoe from cli",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/kritarthAviate/tictactoe/issues"
   },
-  "homepage": "https://github.com/kritarthAviate/tictactoe#readme"
+  "homepage": "https://github.com/kritarthAviate/tictactoe#readme",
+  "dependencies": {
+    "prompt": "^1.3.0"
+  }
 }
