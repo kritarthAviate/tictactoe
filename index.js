@@ -47,6 +47,10 @@ const checkWin = (player) => {
   return false;
 };
 
+const checkDraw = () => {
+  return gameBoard.every((element) => isNaN(+element));
+};
+
 const play = async (player) => {
   showGameBoard(gameBoard);
   console.log(`\n${player}'s turn`);
@@ -57,6 +61,11 @@ const play = async (player) => {
       gameBoard[input - 1] = player;
       if (checkWin(player)) {
         console.log(`\nPlayer ${player} won!\n`);
+        showGameBoard(gameBoard);
+        return;
+      }
+      if (checkDraw()) {
+        console.log(`\nGame Draw!\n`);
         showGameBoard(gameBoard);
         return;
       }
