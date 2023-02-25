@@ -6,7 +6,7 @@ import prompt from "prompt";
 // throw error if square already filled and ask for input
 // show Winner
 // else show Draw if all squares are filled and no winner
-const boardSideLength = 3;
+const boardSideLength = 4;
 const gameBoard = new Array(boardSideLength ** 2)
   .fill("")
   .map((_, i) => (i + 1).toString());
