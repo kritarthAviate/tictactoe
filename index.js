@@ -6,14 +6,16 @@ import prompt from "prompt";
 // throw error if square already filled and ask for input
 // show Winner
 // else show Draw if all squares are filled and no winner
-
-const gameBoard = new Array(9).fill("").map((_, i) => (i + 1).toString());
+const boardSideLength = 3;
+const gameBoard = new Array(boardSideLength ** 2)
+  .fill("")
+  .map((_, i) => (i + 1).toString());
 
 const checkInput = (input) => {
   if (
     typeof input != "number" ||
     input < 1 ||
-    input > 9 ||
+    input > boardSideLength ** 2 ||
     gameBoard[input - 1] == "X" ||
     gameBoard[input - 1] == "O"
   ) {
@@ -23,28 +25,31 @@ const checkInput = (input) => {
 };
 
 const checkWin = (player) => {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < boardSideLength; i++) {
     // check along horizontal and vertical lines
     let horizontalCount = 0;
     let verticalCount = 0;
     let l2rCount = 0;
     let r2lCount = 0;
-    for (let j = i * 3; j < 3 * (i + 1); j++) {
+    for (let j = i * boardSideLength; j < boardSideLength * (i + 1); j++) {
       if (gameBoard[j] == player) horizontalCount++;
     }
-    for (let k = i; k < 9; k = k + 3) {
+    for (let k = i; k < boardSideLength ** 2; k = k + boardSideLength) {
       if (gameBoard[k] == player) verticalCount++;
     }
-    if (horizontalCount == 3 || verticalCount == 3) {
+    if (
+      horizontalCount == boardSideLength ||
+      verticalCount == boardSideLength
+    ) {
       return true;
     }
     // check along diagonals
-    for (let l = 0; l < 3; l++) {
-      let l2rIndex = 4 * l;
-      let r2lIndex = 2 * (l + 1);
+    for (let l = 0; l < boardSideLength; l++) {
+      let l2rIndex = (boardSideLength + 1) * l;
+      let r2lIndex = (boardSideLength - 1) * (l + 1);
       if (gameBoard[l2rIndex] == player) l2rCount++;
       if (gameBoard[r2lIndex] == player) r2lCount++;
-      if (l2rCount == 3 || r2lCount == 3) {
+      if (l2rCount == boardSideLength || r2lCount == boardSideLength) {
         return true;
       }
     }
@@ -58,7 +63,7 @@ const checkDraw = () => {
 };
 
 const play = async (player) => {
-  showGameBoard(gameBoard);
+  showGameBoard(gameBoard, boardSideLength);
   console.log(`\n${player}'s turn`);
   prompt.start();
   prompt.get(["input"], function (err, result) {
@@ -67,12 +72,12 @@ const play = async (player) => {
       gameBoard[input - 1] = player;
       if (checkWin(player)) {
         console.log(`\nPlayer ${player} won!\n`);
-        showGameBoard(gameBoard);
+        showGameBoard(gameBoard, boardSideLength);
         return;
       }
       if (checkDraw()) {
         console.log(`\nGame Draw!\n`);
-        showGameBoard(gameBoard);
+        showGameBoard(gameBoard, boardSideLength);
         return;
       }
       if (player == "X") {

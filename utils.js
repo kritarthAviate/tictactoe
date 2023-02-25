@@ -1,8 +1,8 @@
 // import rl from "readline";
 
-export function showGameBoard(gameBoard) {
-  for (let i = 0; i < 9; i += 3) {
-    console.log(gameBoard.slice(i, i + 3));
+export function showGameBoard(gameBoard, boardSideLength) {
+  for (let i = 0; i < boardSideLength ** 2; i += boardSideLength) {
+    console.log(gameBoard.slice(i, i + boardSideLength));
   }
 }
 
